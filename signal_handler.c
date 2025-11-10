@@ -4,9 +4,9 @@
  */
 
 /**
- * Modified by:
+ * Modified by: Zoya Mumtaz
  * 
- * Brief summary of modifications:
+ * Brief summary of modifications: removed the exit(1) from handle_signal()
  */
 
 
@@ -16,17 +16,18 @@
 #include <stdio.h>
 
 /**
- * @brief Signal handler for SIGINT - prints a message and exits
+ * @brief Signal handler for SIGINT - prints a message
  */
 void handle_signal() {
     printf("Received a signal\n");
-    exit(1);
+    //removed exit here
 }
 
 int main() {
 
     // Register for the signal
     signal(SIGINT, handle_signal);
+
 
     // Wait until a signal is received
     while(1) {
