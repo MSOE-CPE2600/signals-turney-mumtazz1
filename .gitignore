@@ -35,8 +35,12 @@
 *.i*86
 *.x86_64
 *.hex
-*
-!*.*
+alarm
+handler
+recv
+segfault
+send
+sigaction
 
 # Debug files
 *.dSYM/
