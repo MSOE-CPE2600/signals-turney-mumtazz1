@@ -4,15 +4,23 @@
  */
 
 /**
- * Modified by:
+ * Modified by: Zoya Mumtaz
  * 
- * Brief summary of modifications:
+ * Brief summary of modifications: added a signal handler and signal()
  */
 
 
 #include <stdio.h>
+#include <signal.h>
+
+void handle_segfault(int sig){
+    puts("The segmentation fault was received.");
+}
 
 int main (int argc, char* argv[]) {
+    //register the handler 
+    signal(SIGSEGV, handle_segfault);
+
     // Declare a null pointer
     int* i = NULL;
 

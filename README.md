@@ -113,5 +113,59 @@ After removing exit(1) from the handle\_signal function, the program kept runnin
 
 Since this method did not work, I used the kill command (kill 9659) to send SIGTERM, which terminates the process by finding its PID. Because the program does not handle SIGTERM, the process terminated successfully and the terminal printed "Terminated."
 
-&nbsp;Another way to terminate the program is to send SIGKILL (kill -9 9659), which forces the process to terminate and the terminal prints "Killed."
+ Another way to terminate the program is to send SIGKILL (kill -9 9659), which forces the process to terminate and the terminal prints "Killed."
+
+
+
+**Part 3**
+
+alarm() and SIGALRM work together as a simple "alarm clock" mechanism.
+
+alarm(unsigned int seconds): sends the SIGALRM signal after a specified time in seconds.
+
+SIGALRM (Signal 14): the signal itself, just like SIGINT or SIGTERM. It terminates the process.
+
+
+
+
+
+Because the exit function was not added in the signal handler function, the program keeps executing since it is an infinite loop. This happens because when the signal handler returns, the program will re-execute the exact instruction that caused the fault. This causes another SIGSEGV and the loop repeats. The program had to be terminated wth Ctrl + C.
+
+
+
+The sigaction() function allows you to have more control over the handling of signals than signal() function. Sigaction provides more information on the signal, such as the sender's PID. It also allows you to control other things, such as blocking other signals while the signal handler is running.
+
+The sigaction structure is where all the information is contained, and this struct is passed to the sigaction() function. It consists of:
+
+
+
+struct sigaction {
+
+
+
+&nbsp;   //The signal handler
+
+&nbsp;   union {
+
+&nbsp;       void (\*sa\_handler)(int);
+
+&nbsp;       void (\*sa\_sigaction)(int, siginfo\_t \*, void \*);
+
+&nbsp;   } \_\_sigaction\_handler;
+
+
+
+&nbsp;   //mask of signals to block during handler execution
+
+&nbsp;   sigset\_t sa\_mask;
+
+
+
+&nbsp;   //set of flags to modify the signal's behavior 
+
+&nbsp;   int sa\_flags;
+
+}
+
+
 
